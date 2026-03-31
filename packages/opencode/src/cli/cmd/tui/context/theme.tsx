@@ -25,6 +25,7 @@ import nord from "./theme/nord.json" with { type: "json" }
 import osakaJade from "./theme/osaka-jade.json" with { type: "json" }
 import onedark from "./theme/one-dark.json" with { type: "json" }
 import opencode from "./theme/opencode.json" with { type: "json" }
+import argenta from "./theme/argenta.json" with { type: "json" }
 import orng from "./theme/orng.json" with { type: "json" }
 import lucentOrng from "./theme/lucent-orng.json" with { type: "json" }
 import palenight from "./theme/palenight.json" with { type: "json" }
@@ -108,6 +109,7 @@ export const DEFAULT_THEMES: Record<string, ThemeJson> = {
   ["one-dark"]: onedark,
   ["osaka-jade"]: osakaJade,
   opencode,
+  argenta,
   orng,
   ["lucent-orng"]: lucentOrng,
   palenight,
@@ -155,7 +157,7 @@ const [store, setStore] = createStore<State>({
   themes: listThemes(),
   mode: "dark",
   lock: undefined,
-  active: "opencode",
+  active: "argenta",
   ready: false,
 })
 
