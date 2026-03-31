@@ -1,0 +1,26 @@
+{
+  "provider": {
+    "argenta": {
+      "name": "Argenta Kernel",
+      "npm": "@ai-sdk/openai-compatible",
+      "api": "http://localhost:8000/v1",
+      "options": {
+        "apiKey": "argenta-secret-key"
+      },
+      "models": {
+        "gemma3n:e4b": {
+          "name": "Argenta Core (Local)",
+          "cost": {
+            "input": 0,
+            "output": 0
+          },
+          "limit": {
+            "context": 16000,
+            "output": 4096
+          }
+        }
+      }
+    }
+  },
+  "model": "argenta/gemma3n:e4b"
+}
