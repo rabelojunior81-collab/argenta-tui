@@ -863,7 +863,7 @@ function App(props: { onSnapshot?: () => Promise<string[]> }) {
     await DialogAlert.show(
       dialog,
       "Update Complete",
-      `Successfully updated to OpenCode v${result.data.version}. Please restart the application.`,
+      `Atualizado para Argenta Inception v${result.data.version}. Por favor, reinicie o aplicativo.`,
     )
 
     exit()
