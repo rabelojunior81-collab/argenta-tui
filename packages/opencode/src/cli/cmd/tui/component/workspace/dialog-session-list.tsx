@@ -68,13 +68,13 @@ export function DialogSessionList(props: { workspaceID?: string; localOnly?: boo
         const date = new Date(x.time.updated)
         let category = date.toDateString()
         if (category === today) {
-          category = "Today"
+          category = "Hoje"
         }
         const isDeleting = toDelete() === x.id
         const status = sync.data.session_status?.[x.id]
         const isWorking = status?.type === "busy"
         return {
-          title: isDeleting ? `Press ${keybind.print("session_delete")} again to confirm` : x.title,
+          title: isDeleting ? `Pressione ${keybind.print("session_delete")} novamente para confirmar` : x.title,
           bg: isDeleting ? theme.error : undefined,
           value: x.id,
           category,
@@ -90,7 +90,7 @@ export function DialogSessionList(props: { workspaceID?: string; localOnly?: boo
 
   return (
     <DialogSelect
-      title={props.workspaceID ? `Workspace Sessions` : props.localOnly ? "Local Sessions" : "Sessions"}
+      title={props.workspaceID ? `Sessões do Workspace` : props.localOnly ? "Sessões Locais" : "Sessões"}
       options={options()}
       skipFilter={!props.localOnly}
       current={currentSessionID()}
@@ -108,7 +108,7 @@ export function DialogSessionList(props: { workspaceID?: string; localOnly?: boo
       keybind={[
         {
           keybind: keybind.all.session_delete?.[0],
-          title: "delete",
+          title: "excluir",
           onTrigger: async (option) => {
             if (toDelete() === option.value) {
               const deleted = await sdk.client.session
@@ -120,7 +120,7 @@ export function DialogSessionList(props: { workspaceID?: string; localOnly?: boo
               setToDelete(undefined)
               if (!deleted) {
                 toast.show({
-                  message: "Failed to delete session",
+                  message: "Falha ao excluir sessão",
                   variant: "error",
                 })
                 return
@@ -140,7 +140,7 @@ export function DialogSessionList(props: { workspaceID?: string; localOnly?: boo
         },
         {
           keybind: keybind.all.session_rename?.[0],
-          title: "rename",
+          title: "renomear",
           onTrigger: async (option) => {
             dialog.replace(() => <DialogSessionRename session={option.value} />)
           },

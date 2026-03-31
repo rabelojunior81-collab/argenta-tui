@@ -55,7 +55,7 @@ function init() {
       .map((option) => ({
         ...option,
         value: `suggested:${option.value}`,
-        category: "Suggested",
+        category: "Sugeridos",
       })),
   )
   const suspended = () => suspendCount() > 0
@@ -167,5 +167,5 @@ function DialogCommand(props: { options: CommandOption[]; suggestedOptions: Comm
     if (ref?.filter) return props.options
     return [...props.suggestedOptions, ...props.options]
   }
-  return <DialogSelect ref={(r) => (ref = r)} title="Commands" options={list()} />
+  return <DialogSelect ref={(r) => (ref = r)} title="Comandos" options={list()} />
 }

@@ -19,7 +19,7 @@ export function DialogHelp() {
     <box paddingLeft={2} paddingRight={2} gap={1}>
       <box flexDirection="row" justifyContent="space-between">
         <text attributes={TextAttributes.BOLD} fg={theme.text}>
-          Help
+          Ajuda
         </text>
         <text fg={theme.textMuted} onMouseUp={() => dialog.clear()}>
           esc/enter
@@ -27,7 +27,7 @@ export function DialogHelp() {
       </box>
       <box paddingBottom={1}>
         <text fg={theme.textMuted}>
-          Press {keybind.print("command_list")} to see all available actions and commands in any context.
+          Pressione {keybind.print("command_list")} para ver todas as ações e comandos disponíveis.
         </text>
       </box>
       <box flexDirection="row" justifyContent="flex-end" paddingBottom={1}>

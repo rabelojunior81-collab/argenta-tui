@@ -54,7 +54,7 @@ async function openWorkspace(input: {
     const result = await client.session.create({ workspaceID: input.workspaceID }).catch(() => undefined)
     if (!result) {
       input.toast.show({
-        message: "Failed to open workspace",
+        message: "Falha ao abrir workspace",
         variant: "error",
       })
       return
@@ -65,7 +65,7 @@ async function openWorkspace(input: {
     }
     if (!result.data) {
       input.toast.show({
-        message: "Failed to open workspace",
+        message: "Falha ao abrir workspace",
         variant: "error",
       })
       return
@@ -96,9 +96,9 @@ function DialogWorkspaceCreate(props: { onSelect: (workspaceID: string) => Promi
     if (type) {
       return [
         {
-          title: `Creating ${type} workspace...`,
+          title: `Criando workspace ${type}...`,
           value: "creating" as const,
-          description: "This can take a while for remote environments",
+          description: "Isso pode demorar em ambientes remotos",
         },
       ]
     }
@@ -106,7 +106,7 @@ function DialogWorkspaceCreate(props: { onSelect: (workspaceID: string) => Promi
       {
         title: "Worktree",
         value: "worktree" as const,
-        description: "Create a local git worktree",
+        description: "Criar um worktree git local",
       },
     ]
   })
@@ -124,7 +124,7 @@ function DialogWorkspaceCreate(props: { onSelect: (workspaceID: string) => Promi
     if (!workspace) {
       setCreating(undefined)
       toast.show({
-        message: "Failed to create workspace",
+        message: "Falha ao criar workspace",
         variant: "error",
       })
       return
@@ -136,7 +136,7 @@ function DialogWorkspaceCreate(props: { onSelect: (workspaceID: string) => Promi
 
   return (
     <DialogSelect
-      title={creating() ? "Creating Workspace" : "New Workspace"}
+      title={creating() ? "Criando Workspace" : "Novo Workspace"}
       skipFilter={true}
       options={options()}
       onSelect={(option) => {
@@ -236,32 +236,32 @@ export function DialogWorkspaceList() {
       title: "Local",
       value: "__local__",
       category: "Workspace",
-      description: "Use the local machine",
-      footer: `${localCount()} session${localCount() === 1 ? "" : "s"}`,
+      description: "Usar a máquina local",
+      footer: `${localCount()} ${localCount() === 1 ? "sessão" : "sessões"}`,
     },
     ...sync.data.workspaceList.map((workspace) => {
       const count = counts()[workspace.id]
       return {
         title:
           toDelete() === workspace.id
-            ? `Delete ${workspace.id}? Press ${keybind.print("session_delete")} again`
+            ? `Excluir ${workspace.id}? Pressione ${keybind.print("session_delete")} novamente`
             : workspace.id,
         value: workspace.id,
         category: workspace.type,
         description: workspace.branch ? `Branch ${workspace.branch}` : undefined,
         footer:
           count === undefined
-            ? "Loading sessions..."
+            ? "Carregando sessões..."
             : count === null
-              ? "Sessions unavailable"
-              : `${count} session${count === 1 ? "" : "s"}`,
+              ? "Sessões indisponíveis"
+              : `${count} ${count === 1 ? "sessão" : "sessões"}`,
       }
     }),
     {
-      title: "+ New workspace",
+      title: "+ Novo workspace",
       value: "__create__",
-      category: "Actions",
-      description: "Create a new workspace",
+      category: "Ações",
+      description: "Criar um novo workspace",
     },
   ])
 
@@ -290,7 +290,7 @@ export function DialogWorkspaceList() {
       keybind={[
         {
           keybind: keybind.all.session_delete?.[0],
-          title: "delete",
+          title: "excluir",
           onTrigger: async (option) => {
             if (option.value === "__create__" || option.value === "__local__") return
             if (toDelete() !== option.value) {
@@ -301,7 +301,7 @@ export function DialogWorkspaceList() {
             setToDelete(undefined)
             if (result?.error) {
               toast.show({
-                message: "Failed to delete workspace",
+                message: "Falha ao excluir workspace",
                 variant: "error",
               })
               return

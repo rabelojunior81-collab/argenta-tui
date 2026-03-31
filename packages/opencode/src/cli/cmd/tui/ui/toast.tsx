@@ -72,7 +72,7 @@ function init() {
         })
       toast.show({
         variant: "error",
-        message: "An unknown error has occurred",
+        message: "Ocorreu um erro desconhecido",
       })
     },
     get currentToast(): ToastOptions | null {

@@ -17,10 +17,10 @@ function View(props: { show: boolean }) {
 const tui: TuiPlugin = async (api) => {
   api.command.register(() => [
     {
-      title: api.kv.get("tips_hidden", false) ? "Show tips" : "Hide tips",
+      title: api.kv.get("tips_hidden", false) ? "Mostrar dicas" : "Ocultar dicas",
       value: "tips.toggle",
       keybind: "tips_toggle",
-      category: "System",
+      category: "Sistema",
       hidden: api.route.current.name !== "home",
       onSelect() {
         api.kv.set("tips_hidden", !api.kv.get("tips_hidden", false))

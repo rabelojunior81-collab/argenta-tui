@@ -43,7 +43,7 @@ export function DialogSessionList() {
         const date = new Date(x.time.updated)
         let category = date.toDateString()
         if (category === today) {
-          category = "Today"
+          category = "Hoje"
         }
         const isDeleting = toDelete() === x.id
         const status = sync.data.session_status?.[x.id]
@@ -65,7 +65,7 @@ export function DialogSessionList() {
 
   return (
     <DialogSelect
-      title="Sessions"
+      title="Sessões"
       options={options()}
       skipFilter={true}
       current={currentSessionID()}
@@ -83,7 +83,7 @@ export function DialogSessionList() {
       keybind={[
         {
           keybind: keybind.all.session_delete?.[0],
-          title: "delete",
+          title: "excluir",
           onTrigger: async (option) => {
             if (toDelete() === option.value) {
               sdk.client.session.delete({
@@ -97,7 +97,7 @@ export function DialogSessionList() {
         },
         {
           keybind: keybind.all.session_rename?.[0],
-          title: "rename",
+          title: "renomear",
           onTrigger: async (option) => {
             dialog.replace(() => <DialogSessionRename session={option.value} />)
           },

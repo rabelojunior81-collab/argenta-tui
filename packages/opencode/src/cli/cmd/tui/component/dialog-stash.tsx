@@ -14,10 +14,10 @@ function getRelativeTime(timestamp: number): string {
   const hours = Math.floor(minutes / 60)
   const days = Math.floor(hours / 24)
 
-  if (seconds < 60) return "just now"
-  if (minutes < 60) return `${minutes}m ago`
-  if (hours < 24) return `${hours}h ago`
-  if (days < 7) return `${days}d ago`
+  if (seconds < 60) return "agora mesmo"
+  if (minutes < 60) return `${minutes}m atrás`
+  if (hours < 24) return `${hours}h atrás`
+  if (days < 7) return `${days}d atrás`
   return Locale.datetime(timestamp)
 }
 
@@ -54,7 +54,7 @@ export function DialogStash(props: { onSelect: (entry: StashEntry) => void }) {
 
   return (
     <DialogSelect
-      title="Stash"
+      title="Rascunhos"
       options={options()}
       onMove={() => {
         setToDelete(undefined)
@@ -71,7 +71,7 @@ export function DialogStash(props: { onSelect: (entry: StashEntry) => void }) {
       keybind={[
         {
           keybind: keybind.all.stash_delete?.[0],
-          title: "delete",
+          title: "excluir",
           onTrigger: (option) => {
             if (toDelete() === option.value) {
               stash.remove(option.value)

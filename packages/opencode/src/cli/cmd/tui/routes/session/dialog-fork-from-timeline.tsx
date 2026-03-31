@@ -61,5 +61,5 @@ export function DialogForkFromTimeline(props: { sessionID: string; onMove: (mess
     return result
   })
 
-  return <DialogSelect onMove={(option) => props.onMove(option.value)} title="Fork from message" options={options()} />
+  return <DialogSelect onMove={(option) => props.onMove(option.value)} title="Bifurcar da mensagem" options={options()} />
 }
