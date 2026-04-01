@@ -67,6 +67,117 @@ async function checkServices() {
   return results
 }
 
+let gatewayProcess: ReturnType<typeof Bun.spawn> | null = null
+let ollamaProcess: ReturnType<typeof Bun.spawn> | null = null
+
+async function checkDockerAvailable(): Promise<boolean> {
+  try {
+    const proc = Bun.spawn(["docker", "--version"], { stdout: "pipe", stderr: "pipe" })
+    const exitCode = await proc.exited
+    return exitCode === 0
+  } catch {
+    return false
+  }
+}
+
+async function startGateway(): Promise<{ started: boolean; error?: string }> {
+  const health = await checkServices()
+  if (health.gateway) {
+    return { started: false }
+  }
+  
+  const infraPath = path.join(__dirname, "../../../../argenta-infra")
+  const gatewayPath = path.join(__dirname, "../../../../argenta-gateway")
+  const dockerAvailable = await checkDockerAvailable()
+  
+  if (dockerAvailable) {
+    try {
+      const proc = Bun.spawn({
+        cmd: ["docker", "compose", "up", "-d", "gateway"],
+        cwd: infraPath,
+        stdout: "pipe",
+        stderr: "pipe",
+      })
+      await proc.exited
+      await new Promise((r) => setTimeout(r, 3000))
+      const check = await checkServices()
+      if (check.gateway) {
+        return { started: true }
+      }
+    } catch (e) {
+      const err = e instanceof Error ? e.message : String(e)
+      return { started: false, error: `Docker falhou: ${err}` }
+    }
+  }
+  
+  try {
+    gatewayProcess = Bun.spawn({
+      cmd: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"],
+      cwd: gatewayPath,
+      stdout: "pipe",
+      stderr: "pipe",
+    })
+    await new Promise((r) => setTimeout(r, 3000))
+    const check = await checkServices()
+    if (check.gateway) {
+      return { started: true }
+    }
+    return { started: false, error: "Gateway não iniciou em tempo hábil" }
+  } catch (e) {
+    const err = e instanceof Error ? e.message : String(e)
+    return { started: false, error: `Falha ao iniciar Gateway: ${err}` }
+  }
+}
+
+async function startOllama(): Promise<{ started: boolean; error?: string }> {
+  const health = await checkServices()
+  if (health.ollama) {
+    return { started: false }
+  }
+  
+  const infraPath = path.join(__dirname, "../../../../argenta-infra")
+  const dockerAvailable = await checkDockerAvailable()
+  
+  if (dockerAvailable) {
+    try {
+      const proc = Bun.spawn({
+        cmd: ["docker", "compose", "up", "-d", "ollama"],
+        cwd: infraPath,
+        stdout: "pipe",
+        stderr: "pipe",
+      })
+      await proc.exited
+      await new Promise((r) => setTimeout(r, 5000))
+      const check = await checkServices()
+      if (check.ollama) {
+        return { started: true }
+      }
+    } catch (e) {
+      const err = e instanceof Error ? e.message : String(e)
+      return { started: false, error: `Docker falhou: ${err}` }
+    }
+  }
+  
+  return { 
+    started: false, 
+    error: "Docker não encontrado. Inicie manualmente: cd argenta-infra && docker compose up -d ollama" 
+  }
+}
+
+async function startLocalServices(): Promise<{ ollama: boolean; gateway: boolean; errors: string[] }> {
+  const errors: string[] = []
+  const ollamaResult = await startOllama()
+  if (ollamaResult.error && !ollamaResult.started) {
+    errors.push(`Ollama: ${ollamaResult.error}`)
+  }
+  const gatewayResult = await startGateway()
+  if (gatewayResult.error && !gatewayResult.started) {
+    errors.push(`Gateway: ${gatewayResult.error}`)
+  }
+  const health = await checkServices()
+  return { ollama: health.ollama, gateway: health.gateway, errors }
+}
+
 async function getOllamaModels() {
   try {
     const res = await fetch("http://localhost:11434/api/tags", { signal: AbortSignal.timeout(3000) })
@@ -267,6 +378,15 @@ select:focus{border-color:var(--olive-500)}
 .ollama-model-item{display:flex;justify-content:space-between;padding:4px 0;font-size:0.85rem}
 .ollama-model-item .name{color:var(--olive-200)}
 .ollama-model-item .pull{color:var(--text-muted);cursor:pointer;text-decoration:underline}
+.service-control{margin-bottom:16px}
+.service-row{display:flex;justify-content:space-between;align-items:center;padding:10px;border:1px solid var(--glass-border);background:var(--glass-bg);margin-bottom:8px}
+.service-row .svc-name{font-weight:600;color:var(--olive-200)}
+.service-row .svc-status{font-size:0.8rem}
+.svc-status.ok{color:var(--olive-400)}
+.svc-status.error{color:#c94f4f}
+.svc-status.starting{color:var(--gold)}
+.btn-small{padding:6px 12px;font-size:0.75rem}
+.error-box{background:rgba(201,79,79,0.1);border:1px solid #c94f4f;padding:12px;margin-bottom:16px;font-size:0.85rem;color:#e8a0a0}
 </style>
 </head>
 <body>
@@ -336,6 +456,18 @@ select:focus{border-color:var(--olive-500)}
       <select id="model-select"></select>
     </div>
     <div id="ollama-config" style="display:none">
+      <div class="service-control" id="service-control">
+        <div class="service-row">
+          <span class="svc-name">Ollama</span>
+          <span class="svc-status" id="svc-ollama">...</span>
+        </div>
+        <div class="service-row">
+          <span class="svc-name">Gateway</span>
+          <span class="svc-status" id="svc-gateway">...</span>
+        </div>
+        <button class="btn btn-small" id="btn-start-services" onclick="startLocalServices()">Iniciar Serviços</button>
+      </div>
+      <div class="error-box" id="service-errors" style="display:none"></div>
       <div class="ollama-status" id="ollama-status"></div>
       <div class="ollama-models" id="ollama-models"></div>
       <label>Endpoint Ollama</label>
@@ -459,6 +591,9 @@ function setupModelStep() {
     const sel = document.getElementById('model-select')
     sel.innerHTML = list.map(m => '<option value="' + m + '">' + m + '</option>').join('')
   } else {
+    loadHealth().then(function() {
+      updateServiceStatus(healthData)
+    })
     loadOllamaModels()
   }
 }
@@ -560,6 +695,42 @@ function showError(msg) {
   el.textContent = msg
   el.style.display = 'block'
 }
+
+async function startLocalServices() {
+  const btn = document.getElementById('btn-start-services')
+  btn.disabled = true
+  btn.textContent = 'Iniciando...'
+  document.getElementById('svc-ollama').textContent = 'iniciando...'
+  document.getElementById('svc-ollama').className = 'svc-status starting'
+  document.getElementById('svc-gateway').textContent = 'iniciando...'
+  document.getElementById('svc-gateway').className = 'svc-status starting'
+  document.getElementById('service-errors').style.display = 'none'
+  
+  try {
+    const res = await fetch('/start-services', { method: 'POST' })
+    const data = await res.json()
+    updateServiceStatus(data)
+    if (data.errors && data.errors.length > 0) {
+      document.getElementById('service-errors').textContent = data.errors.join('\n')
+      document.getElementById('service-errors').style.display = 'block'
+    }
+    if (data.ollama) loadOllamaModels()
+  } catch (e) {
+    document.getElementById('service-errors').textContent = 'Falha ao comunicar com servidor: ' + e
+    document.getElementById('service-errors').style.display = 'block'
+  }
+  btn.disabled = false
+  btn.textContent = 'Iniciar Serviços'
+}
+
+function updateServiceStatus(data) {
+  const ollamaEl = document.getElementById('svc-ollama')
+  const gatewayEl = document.getElementById('svc-gateway')
+  ollamaEl.textContent = data.ollama ? 'OK' : 'OFF'
+  ollamaEl.className = 'svc-status ' + (data.ollama ? 'ok' : 'error')
+  gatewayEl.textContent = data.gateway ? 'OK' : 'OFF'
+  gatewayEl.className = 'svc-status ' + (data.gateway ? 'ok' : 'error')
+}
 </script>
 </body>
 </html>`
@@ -602,6 +773,11 @@ async function main() {
       if (req.method === "GET" && pathname === "/health") {
         const health = await checkServices()
         return new Response(JSON.stringify(health), { headers: { "Content-Type": "application/json" } })
+      }
+
+      if (req.method === "POST" && pathname === "/start-services") {
+        const result = await startLocalServices()
+        return new Response(JSON.stringify(result), { headers: { "Content-Type": "application/json" } })
       }
 
       if (req.method === "GET" && pathname === "/ollama-models") {
