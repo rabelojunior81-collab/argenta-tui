@@ -1,141 +1,113 @@
 <p align="center">
-  <a href="https://opencode.ai">
-    <picture>
-      <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
-      <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
-      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="OpenCode logo">
-    </picture>
-  </a>
+  <img src="docs/assets/brand/argenta-phoenix-logo.png" alt="Logo Phoenix da Argenta Inception" width="320">
 </p>
-<p align="center">The open source AI coding agent.</p>
+
+<h1 align="center">Argenta-Tui</h1>
+
+<p align="center"><strong>Terminal Multi-Agêntico do Rabelus Lab</strong></p>
+
 <p align="center">
-  <a href="https://opencode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
-  <a href="https://www.npmjs.com/package/opencode-ai"><img alt="npm" src="https://img.shields.io/npm/v/opencode-ai?style=flat-square" /></a>
-  <a href="https://github.com/anomalyco/opencode/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/opencode/publish.yml?style=flat-square&branch=dev" /></a>
+  Fork do OpenCode com identidade própria, soluções proprietárias e integração direta com o ecossistema core do Rabelus Lab.
 </p>
 
 <p align="center">
-  <a href="README.md">English</a> |
-  <a href="README.zh.md">简体中文</a> |
-  <a href="README.zht.md">繁體中文</a> |
-  <a href="README.ko.md">한국어</a> |
-  <a href="README.de.md">Deutsch</a> |
-  <a href="README.es.md">Español</a> |
-  <a href="README.fr.md">Français</a> |
-  <a href="README.it.md">Italiano</a> |
-  <a href="README.da.md">Dansk</a> |
-  <a href="README.ja.md">日本語</a> |
-  <a href="README.pl.md">Polski</a> |
-  <a href="README.ru.md">Русский</a> |
-  <a href="README.bs.md">Bosanski</a> |
-  <a href="README.ar.md">العربية</a> |
-  <a href="README.no.md">Norsk</a> |
-  <a href="README.br.md">Português (Brasil)</a> |
-  <a href="README.th.md">ไทย</a> |
-  <a href="README.tr.md">Türkçe</a> |
-  <a href="README.uk.md">Українська</a> |
-  <a href="README.bn.md">বাংলা</a> |
-  <a href="README.gr.md">Ελληνικά</a> |
-  <a href="README.vi.md">Tiếng Việt</a>
+  <a href="https://github.com/rabelojunior81-collab/argenta-tui">Repositório Oficial</a>
+  ·
+  <a href="docs/index.html">Landing GitHub Pages</a>
+  ·
+  <a href="https://github.com/anomalyco/opencode">OpenCode Upstream</a>
 </p>
 
-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
-
 ---
 
-### Installation
+[![Screenshot do Argenta-Tui](docs/assets/screenshots/argenta-tui.jpeg)](docs/index.html)
+
+## O que é
+
+O **Argenta-Tui** é a camada terminal do ecossistema do **Rabelus Lab**: um ambiente multi-agêntico para desenvolvimento assistido por IA, construído sobre a base do OpenCode e expandido com direção própria.
+
+Ele nasce da mesma linhagem técnica que o upstream, mas segue uma trilha autoral em:
+
+- identidade visual Phoenix / Argenta
+- narrativa e posicionamento de produto
+- integração com o core de ferramentas do Rabelus Lab
+- fluxo de distribuição e operação sob a marca `argenta-fenix`
+
+## Posicionamento oficial
+
+O Argenta-Tui se apresenta como:
+
+- **fork com identidade própria**
+- **fork com soluções proprietárias**
+- **parte integrante do core do Rabelus Lab**
+- **membro orgulhoso da comunidade OpenCode**
+
+Não escondemos a origem. Pelo contrário: reconhecemos com respeito a base construída pela comunidade OpenCode e seguimos evoluindo essa linhagem com foco, rebranding e integração de ecossistema.
+
+## O que diferencia o Argenta-Tui
+
+- **Identidade Phoenix**: linguagem visual, branding e atmosfera próprios
+- **Terminal first**: foco em operação real via TUI, sem perder extensibilidade futura
+- **Ecossistema integrado**: encaixe nativo com os componentes centrais do Rabelus Lab
+- **Arquitetura herdada e expandida**: compatibilidade conceitual com OpenCode, mas com direção própria
+
+## Ecossistema Rabelus Lab
+
+O Argenta-Tui não é uma peça isolada. Ele compõe um ecossistema maior de ferramentas unificadas e interligadas, servindo como interface operacional de um núcleo mais amplo do laboratório.
+
+Na prática, isso significa que o TUI é pensado para conversar com outros blocos do stack Argenta, incluindo runtime, gateway, kernel e fluxos de automação do laboratório.
+
+## Relação com o OpenCode
+
+O OpenCode é a nossa base upstream e parte importante da comunidade à qual pertencemos com orgulho.
+
+O Argenta-Tui não tenta apagar essa origem. A proposta é outra:
+
+- honrar a base comunitária
+- preservar a transparência técnica
+- evoluir uma identidade pública própria
+- construir soluções adicionais sob a visão do Rabelus Lab
+
+## Estado atual de distribuição
+
+Hoje, o **ponto público oficial** do Argenta-Tui é este repositório GitHub.
+
+O projeto já possui:
+
+- repositório próprio
+- assets oficiais de marca
+- landing pública preparada para GitHub Pages
+
+O fluxo de distribuição segue a arquitetura conceitual do OpenCode, mas está sendo consolidado sob a identidade Argenta. Nesta fase, o caminho mais confiável para exploração e desenvolvimento continua sendo o uso direto do repositório.
+
+## Primeiros passos
 
 ```bash
-# YOLO
-curl -fsSL https://opencode.ai/install | bash
-
-# Package managers
-npm i -g opencode-ai@latest        # or bun/pnpm/yarn
-scoop install opencode             # Windows
-choco install opencode             # Windows
-brew install anomalyco/tap/opencode # macOS and Linux (recommended, always up to date)
-brew install opencode              # macOS and Linux (official brew formula, updated less)
-sudo pacman -S opencode            # Arch Linux (Stable)
-paru -S opencode-bin               # Arch Linux (Latest from AUR)
-mise use -g opencode               # Any OS
-nix run nixpkgs#opencode           # or github:anomalyco/opencode for latest dev branch
+git clone https://github.com/rabelojunior81-collab/argenta-tui
+cd argenta-tui
+bun install
+bun run dev
 ```
 
-> [!TIP]
-> Remove versions older than 0.1.x before installing.
+Isso inicia a base atual do projeto a partir do código-fonte.
 
-### Desktop App (BETA)
+## Direção de produto
 
-OpenCode is also available as a desktop application. Download directly from the [releases page](https://github.com/anomalyco/opencode/releases) or [opencode.ai/download](https://opencode.ai/download).
+O objetivo do Argenta-Tui é se tornar a interface terminal soberana do Rabelus Lab para trabalho multi-agêntico, preservando a potência do OpenCode e levando essa base para uma identidade mais coesa, brasileira, ecossistêmica e proprietária.
 
-| Platform              | Download                              |
-| --------------------- | ------------------------------------- |
-| macOS (Apple Silicon) | `opencode-desktop-darwin-aarch64.dmg` |
-| macOS (Intel)         | `opencode-desktop-darwin-x64.dmg`     |
-| Windows               | `opencode-desktop-windows-x64.exe`    |
-| Linux                 | `.deb`, `.rpm`, or AppImage           |
+## Documentação pública imediata
 
-```bash
-# macOS (Homebrew)
-brew install --cask opencode-desktop
-# Windows (Scoop)
-scoop bucket add extras; scoop install extras/opencode-desktop
-```
+- `README.md` — landing principal do repositório
+- `docs/index.html` — landing preparada para GitHub Pages
 
-#### Installation Directory
+## Contribuição
 
-The install script respects the following priority order for the installation path:
+Se você participa da comunidade OpenCode, chega em casa aqui também.
 
-1. `$OPENCODE_INSTALL_DIR` - Custom installation directory
-2. `$XDG_BIN_DIR` - XDG Base Directory Specification compliant path
-3. `$HOME/bin` - Standard user binary directory (if it exists or can be created)
-4. `$HOME/.opencode/bin` - Default fallback
+Se você acompanha o Rabelus Lab, o Argenta-Tui é uma das peças centrais dessa construção.
 
-```bash
-# Examples
-OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://opencode.ai/install | bash
-XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
-```
+Contribuições, leituras críticas, auditorias de branding e melhorias de operação são bem-vindas dentro da evolução do projeto.
 
-### Agents
+## Reconhecimento
 
-OpenCode includes two built-in agents you can switch between with the `Tab` key.
-
-- **build** - Default, full-access agent for development work
-- **plan** - Read-only agent for analysis and code exploration
-  - Denies file edits by default
-  - Asks permission before running bash commands
-  - Ideal for exploring unfamiliar codebases or planning changes
-
-Also included is a **general** subagent for complex searches and multistep tasks.
-This is used internally and can be invoked using `@general` in messages.
-
-Learn more about [agents](https://opencode.ai/docs/agents).
-
-### Documentation
-
-For more info on how to configure OpenCode, [**head over to our docs**](https://opencode.ai/docs).
-
-### Contributing
-
-If you're interested in contributing to OpenCode, please read our [contributing docs](./CONTRIBUTING.md) before submitting a pull request.
-
-### Building on OpenCode
-
-If you are working on a project that's related to OpenCode and is using "opencode" as part of its name, for example "opencode-dashboard" or "opencode-mobile", please add a note to your README to clarify that it is not built by the OpenCode team and is not affiliated with us in any way.
-
-### FAQ
-
-#### How is this different from Claude Code?
-
-It's very similar to Claude Code in terms of capability. Here are the key differences:
-
-- 100% open source
-- Not coupled to any provider. Although we recommend the models we provide through [OpenCode Zen](https://opencode.ai/zen), OpenCode can be used with Claude, OpenAI, Google, or even local models. As models evolve, the gaps between them will close and pricing will drop, so being provider-agnostic is important.
-- Out-of-the-box LSP support
-- A focus on TUI. OpenCode is built by neovim users and the creators of [terminal.shop](https://terminal.shop); we are going to push the limits of what's possible in the terminal.
-- A client/server architecture. This, for example, can allow OpenCode to run on your computer while you drive it remotely from a mobile app, meaning that the TUI frontend is just one of the possible clients.
-
----
-
-**Join our community** [Discord](https://discord.gg/opencode) | [X.com](https://x.com/opencode)
+**Com honra à comunidade OpenCode** e com direção própria do **Rabelus Lab**.

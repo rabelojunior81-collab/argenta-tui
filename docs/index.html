@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Argenta-Tui — Terminal Multi-Agêntico do Rabelus Lab</title>
+  <meta name="description" content="Argenta-Tui é o Terminal Multi-Agêntico do Rabelus Lab: um fork do OpenCode com identidade própria, soluções proprietárias e estética Phoenix.">
+  <style>
+    :root {
+      --ember-050: #fff1dc;
+      --ember-100: #ffd9a0;
+      --ember-200: #ffbe73;
+      --ember-300: #ff9a4b;
+      --ember-400: #ff732a;
+      --ember-500: #ff4d1f;
+      --ember-600: #e53a1b;
+      --ember-700: #b92a18;
+      --ember-800: #7d1b14;
+      --ember-900: #41110e;
+      --gold-300: #ffe28d;
+      --gold-400: #ffd25f;
+      --gold-500: #ffbd3d;
+      --bg-base: #08090b;
+      --bg-panel: rgba(25, 12, 10, 0.78);
+      --bg-soft: rgba(35, 15, 12, 0.55);
+      --glass-border: rgba(255, 156, 75, 0.35);
+      --glass-strong: rgba(255, 115, 42, 0.18);
+      --text-main: #fff4e8;
+      --text-muted: #f1c8a0;
+      --text-dim: #d79e74;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "IBM Plex Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+      background:
+        radial-gradient(circle at top, rgba(255, 77, 31, 0.14), transparent 30%),
+        linear-gradient(rgba(255, 115, 42, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 115, 42, 0.05) 1px, transparent 1px),
+        var(--bg-base);
+      background-size: auto, 28px 28px, 28px 28px, auto;
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: var(--gold-300);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: 160ms ease;
+    }
+
+    a:hover {
+      color: #fff;
+      border-bottom-color: #fff;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .shell {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(8, 9, 11, 0.82);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .topbar .shell {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--glass-border);
+      background: linear-gradient(180deg, rgba(255, 226, 141, 0.16), rgba(255, 77, 31, 0.06));
+      display: grid;
+      place-items: center;
+      color: var(--gold-300);
+      box-shadow: var(--shadow);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    .hero {
+      padding: 72px 0 44px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-copy {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .eyebrow {
+      color: var(--ember-200);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.78rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-weight: 700;
+      line-height: 1.08;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 5.2rem);
+      color: var(--ember-050);
+      text-shadow: 0 0 24px rgba(255, 115, 42, 0.2);
+    }
+
+    h2 {
+      font-size: clamp(1.3rem, 2.8vw, 2rem);
+      color: var(--gold-300);
+      margin-bottom: 18px;
+    }
+
+    p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .lead {
+      font-size: 1.08rem;
+      max-width: 58ch;
+    }
+
+    .cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 1px solid var(--glass-border);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.82rem;
+      background: var(--glass-strong);
+      color: var(--text-main);
+    }
+
+    .btn:hover {
+      background: rgba(255, 115, 42, 0.28);
+      border-bottom-color: transparent;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(255, 189, 61, 0.2), rgba(255, 77, 31, 0.24));
+      color: var(--gold-300);
+    }
+
+    .note {
+      border-left: 4px solid var(--ember-400);
+      padding: 16px 18px;
+      background: rgba(255, 77, 31, 0.08);
+      color: var(--text-main);
+    }
+
+    .hero-visual {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      justify-content: space-between;
+    }
+
+    .hero-visual .frame {
+      border: 1px solid var(--glass-border);
+      background: rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+
+    .mini {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .mini div {
+      border: 1px solid var(--glass-border);
+      padding: 12px;
+      background: var(--bg-soft);
+      color: var(--text-main);
+      min-height: 92px;
+    }
+
+    .mini strong,
+    .card strong,
+    .stat strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--gold-300);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.78rem;
+    }
+
+    .section {
+      padding: 28px 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card,
+    .stat {
+      padding: 22px;
+      background: var(--bg-panel);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    ul {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      color: var(--text-muted);
+    }
+
+    li {
+      padding-left: 18px;
+      position: relative;
+    }
+
+    li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--ember-300);
+    }
+
+    .footer {
+      padding: 40px 0 56px;
+      color: var(--text-dim);
+      font-size: 0.86rem;
+    }
+
+    .footer .panel {
+      padding: 24px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .split,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mini {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar .shell {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      .hero-copy,
+      .hero-visual,
+      .card,
+      .stat,
+      .footer .panel {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell">
+      <div class="brand">
+        <div class="brand-mark">A</div>
+        <div>Argenta-Tui · Phoenix Surface</div>
+      </div>
+      <nav class="nav">
+        <a href="https://github.com/rabelojunior81-collab/argenta-tui">GitHub</a>
+        <a href="https://github.com/anomalyco/opencode">OpenCode</a>
+        <a href="#ecossistema">Ecossistema</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell hero-grid">
+        <article class="panel hero-copy">
+          <div class="eyebrow">Rabelus Lab · Core Interface</div>
+          <img src="./assets/brand/argenta-phoenix-logo.png" alt="Logo Phoenix da Argenta Inception" width="220">
+          <div>
+            <h1>Argenta-Tui</h1>
+            <p class="lead">Terminal Multi-Agêntico do Rabelus Lab.</p>
+          </div>
+          <p>
+            Um fork do OpenCode com identidade própria, soluções proprietárias e integração direta com o núcleo operacional do ecossistema Rabelus Lab.
+          </p>
+          <div class="cta">
+            <a class="btn primary" href="https://github.com/rabelojunior81-collab/argenta-tui">Abrir Repositório</a>
+            <a class="btn" href="https://github.com/rabelojunior81-collab/argenta-tui#readme">Ler README</a>
+            <a class="btn" href="https://github.com/anomalyco/opencode">Honrar o Upstream</a>
+          </div>
+          <div class="note">
+            O Argenta-Tui reconhece com orgulho sua origem no OpenCode e segue uma trilha própria de branding, operação e integração ecossistêmica.
+          </div>
+        </article>
+
+        <aside class="panel hero-visual">
+          <div class="frame">
+            <img src="./assets/screenshots/argenta-tui.jpeg" alt="Screenshot do Argenta-Tui com identidade Argenta Inception">
+          </div>
+          <div class="mini">
+            <div>
+              <strong>Posicionamento</strong>
+              Fork com identidade e soluções proprietárias.
+            </div>
+            <div>
+              <strong>Tagline</strong>
+              Terminal Multi-Agêntico do Rabelus Lab.
+            </div>
+            <div>
+              <strong>Estado</strong>
+              Repo próprio ativo, landing pronta, branding público em consolidação.
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell grid">
+        <article class="card">
+          <strong>Identidade</strong>
+          <h2>Fênix, não espelho</h2>
+          <p>
+            O Argenta-Tui não se apresenta como clone cru. Ele assume a base OpenCode, mas constrói uma superfície pública autoral, coerente e integrada ao universo do Rabelus Lab.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Operação</strong>
+          <h2>Terminal primeiro</h2>
+          <p>
+            A experiência central é TUI, multi-agêntica, orientada a fluxo real de desenvolvimento, com naming, branding e caminho de distribuição sob a identidade `argenta-fenix`.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Linhagem</strong>
+          <h2>Comunidade upstream</h2>
+          <p>
+            O projeto reconhece explicitamente o OpenCode como base upstream e mantém uma postura de respeito, transparência técnica e gratidão comunitária.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="ecossistema">
+      <div class="shell split">
+        <article class="stat">
+          <strong>Ecossistema</strong>
+          <h2>Parte do core do Rabelus Lab</h2>
+          <p>
+            O Argenta-Tui é uma peça operacional dentro de um conjunto maior de ferramentas unificadas e interligadas. Ele não existe isoladamente: foi pensado para conversar com os fluxos centrais do laboratório.
+          </p>
+        </article>
+        <article class="stat">
+          <strong>Direção</strong>
+          <h2>Soluções proprietárias</h2>
+          <p>
+            A direção do produto não se limita ao rebranding visual. O objetivo é evoluir a experiência terminal, a camada pública e a integração com o stack Argenta sob uma linha própria.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell split">
+        <article class="card">
+          <strong>O que já existe</strong>
+          <ul>
+            <li>repositório próprio no GitHub</li>
+            <li>branding Phoenix aplicado na superfície principal</li>
+            <li>assets oficiais de marca e screenshot</li>
+            <li>estrutura pronta para publicação via GitHub Pages</li>
+          </ul>
+        </article>
+        <article class="card">
+          <strong>O que vem depois</strong>
+          <ul>
+            <li>publicação da primeira release oficial</li>
+            <li>refino da documentação profunda multilíngue</li>
+            <li>expansão da presença pública do ecossistema Argenta</li>
+            <li>consolidação do fluxo de upgrade com identidade própria</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell">
+      <div class="panel">
+        Argenta-Tui · Terminal Multi-Agêntico do Rabelus Lab · Com honra à comunidade OpenCode.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
