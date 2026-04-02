@@ -11,8 +11,8 @@ import { Flag } from "../flag/flag"
 import { Log } from "../util/log"
 
 declare global {
-  const OPENCODE_VERSION: string
-  const OPENCODE_CHANNEL: string
+  const ARGENTA_VERSION: string
+  const ARGENTA_CHANNEL: string
 }
 
 import semver from "semver"
@@ -60,9 +60,9 @@ export namespace Installation {
     })
   export type Info = z.infer<typeof Info>
 
-  export const VERSION = typeof OPENCODE_VERSION === "string" ? OPENCODE_VERSION : "local"
-  export const CHANNEL = typeof OPENCODE_CHANNEL === "string" ? OPENCODE_CHANNEL : "local"
-  export const USER_AGENT = `opencode/${CHANNEL}/${VERSION}/${Flag.OPENCODE_CLIENT}`
+  export const VERSION = typeof ARGENTA_VERSION === "string" ? ARGENTA_VERSION : "local"
+  export const CHANNEL = typeof ARGENTA_CHANNEL === "string" ? ARGENTA_CHANNEL : "local"
+  export const USER_AGENT = `argenta-fenix/${CHANNEL}/${VERSION}/${Flag.OPENCODE_CLIENT}`
 
   export function isPreview() {
     return CHANNEL !== "latest"
@@ -95,7 +95,7 @@ export namespace Installation {
     readonly upgrade: (method: Method, target: string) => Effect.Effect<void, UpgradeFailedError>
   }
 
-  export class Service extends ServiceMap.Service<Service, Interface>()("@opencode/Installation") {}
+  export class Service extends ServiceMap.Service<Service, Interface>()("@argenta/Installation") {}
 
   export const layer: Layer.Layer<Service, never, HttpClient.HttpClient | ChildProcessSpawner.ChildProcessSpawner> =
     Layer.effect(
@@ -141,16 +141,16 @@ export namespace Installation {
         )
 
         const getBrewFormula = Effect.fnUntraced(function* () {
-          const tapFormula = yield* text(["brew", "list", "--formula", "anomalyco/tap/opencode"])
-          if (tapFormula.includes("opencode")) return "anomalyco/tap/opencode"
-          const coreFormula = yield* text(["brew", "list", "--formula", "opencode"])
-          if (coreFormula.includes("opencode")) return "opencode"
-          return "opencode"
+          const tapFormula = yield* text(["brew", "list", "--formula", "rabelojunior81-collab/tap/argenta-fenix"])
+          if (tapFormula.includes("opencode")) return "rabelojunior81-collab/tap/argenta-fenix"
+          const coreFormula = yield* text(["brew", "list", "--formula", "argenta-fenix"])
+          if (coreFormula.includes("argenta-fenix")) return "argenta-fenix"
+          return "argenta-fenix"
         })
 
         const upgradeCurl = Effect.fnUntraced(
           function* (target: string) {
-            const response = yield* httpOk.execute(HttpClientRequest.get("https://opencode.ai/install"))
+            const response = yield* httpOk.execute(HttpClientRequest.get("https://raw.githubusercontent.com/rabelojunior81-collab/argenta-tui/main/scripts/install.sh"))
             const body = yield* response.text
             const bodyBytes = new TextEncoder().encode(body)
             const proc = ChildProcess.make("bash", [], {
@@ -171,7 +171,7 @@ export namespace Installation {
         )
 
         const methodImpl = Effect.fn("Installation.method")(function* () {
-          if (process.execPath.includes(path.join(".opencode", "bin"))) return "curl" as Method
+          if (process.execPath.includes(path.join(".argenta", "bin"))) return "curl" as Method
           if (process.execPath.includes(path.join(".local", "bin"))) return "curl" as Method
           const exec = process.execPath.toLowerCase()
 
@@ -180,9 +180,9 @@ export namespace Installation {
             { name: "yarn", command: () => text(["yarn", "global", "list"]) },
             { name: "pnpm", command: () => text(["pnpm", "list", "-g", "--depth=0"]) },
             { name: "bun", command: () => text(["bun", "pm", "ls", "-g"]) },
-            { name: "brew", command: () => text(["brew", "list", "--formula", "opencode"]) },
-            { name: "scoop", command: () => text(["scoop", "list", "opencode"]) },
-            { name: "choco", command: () => text(["choco", "list", "--limit-output", "opencode"]) },
+            { name: "brew", command: () => text(["brew", "list", "--formula", "argenta-fenix"]) },
+            { name: "scoop", command: () => text(["scoop", "list", "argenta-fenix"]) },
+            { name: "choco", command: () => text(["choco", "list", "--limit-output", "argenta-fenix"]) },
           ]
 
           checks.sort((a, b) => {
@@ -196,7 +196,7 @@ export namespace Installation {
           for (const check of checks) {
             const output = yield* check.command()
             const installedName =
-              check.name === "brew" || check.name === "choco" || check.name === "scoop" ? "opencode" : "opencode-ai"
+              check.name === "brew" || check.name === "choco" || check.name === "scoop" ? "argenta-fenix" : "argenta-fenix"
             if (output.includes(installedName)) {
               return check.name
             }
@@ -216,7 +216,7 @@ export namespace Installation {
               return info.formulae[0].versions.stable
             }
             const response = yield* httpOk.execute(
-              HttpClientRequest.get("https://formulae.brew.sh/api/formula/opencode.json").pipe(
+              HttpClientRequest.get("https://formulae.brew.sh/api/formula/argenta-fenix.json").pipe(
                 HttpClientRequest.acceptJson,
               ),
             )
@@ -230,7 +230,7 @@ export namespace Installation {
             const registry = reg.endsWith("/") ? reg.slice(0, -1) : reg
             const channel = CHANNEL
             const response = yield* httpOk.execute(
-              HttpClientRequest.get(`${registry}/opencode-ai/${channel}`).pipe(HttpClientRequest.acceptJson),
+              HttpClientRequest.get(`${registry}/argenta-fenix/${channel}`).pipe(HttpClientRequest.acceptJson),
             )
             const data = yield* HttpClientResponse.schemaBodyJson(NpmPackage)(response)
             return data.version
@@ -239,7 +239,7 @@ export namespace Installation {
           if (detectedMethod === "choco") {
             const response = yield* httpOk.execute(
               HttpClientRequest.get(
-                "https://community.chocolatey.org/api/v2/Packages?$filter=Id%20eq%20%27opencode%27%20and%20IsLatestVersion&$select=Version",
+                "https://community.chocolatey.org/api/v2/Packages?$filter=Id%20eq%20%27argenta-fenix%27%20and%20IsLatestVersion&$select=Version",
               ).pipe(HttpClientRequest.setHeaders({ Accept: "application/json;odata=verbose" })),
             )
             const data = yield* HttpClientResponse.schemaBodyJson(ChocoPackage)(response)
@@ -249,7 +249,7 @@ export namespace Installation {
           if (detectedMethod === "scoop") {
             const response = yield* httpOk.execute(
               HttpClientRequest.get(
-                "https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/opencode.json",
+                "https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/argenta-fenix.json",
               ).pipe(HttpClientRequest.setHeaders({ Accept: "application/json" })),
             )
             const data = yield* HttpClientResponse.schemaBodyJson(ScoopManifest)(response)
@@ -257,7 +257,7 @@ export namespace Installation {
           }
 
           const response = yield* httpOk.execute(
-            HttpClientRequest.get("https://api.github.com/repos/anomalyco/opencode/releases/latest").pipe(
+            HttpClientRequest.get("https://api.github.com/repos/rabelojunior81-collab/argenta-tui/releases/latest").pipe(
               HttpClientRequest.acceptJson,
             ),
           )
@@ -272,24 +272,24 @@ export namespace Installation {
               result = yield* upgradeCurl(target)
               break
             case "npm":
-              result = yield* run(["npm", "install", "-g", `opencode-ai@${target}`])
+              result = yield* run(["npm", "install", "-g", `argenta-fenix@${target}`])
               break
             case "pnpm":
-              result = yield* run(["pnpm", "install", "-g", `opencode-ai@${target}`])
+              result = yield* run(["pnpm", "install", "-g", `argenta-fenix@${target}`])
               break
             case "bun":
-              result = yield* run(["bun", "install", "-g", `opencode-ai@${target}`])
+              result = yield* run(["bun", "install", "-g", `argenta-fenix@${target}`])
               break
             case "brew": {
               const formula = yield* getBrewFormula()
               const env = { HOMEBREW_NO_AUTO_UPDATE: "1" }
               if (formula.includes("/")) {
-                const tap = yield* run(["brew", "tap", "anomalyco/tap"], { env })
+                const tap = yield* run(["brew", "tap", "rabelojunior81-collab/tap"], { env })
                 if (tap.code !== 0) {
                   result = tap
                   break
                 }
-                const repo = yield* text(["brew", "--repo", "anomalyco/tap"])
+                const repo = yield* text(["brew", "--repo", "rabelojunior81-collab/tap"])
                 const dir = repo.trim()
                 if (dir) {
                   const pull = yield* run(["git", "pull", "--ff-only"], { cwd: dir, env })
@@ -303,10 +303,10 @@ export namespace Installation {
               break
             }
             case "choco":
-              result = yield* run(["choco", "upgrade", "opencode", `--version=${target}`, "-y"])
+              result = yield* run(["choco", "upgrade", "argenta-fenix", `--version=${target}`, "-y"])
               break
             case "scoop":
-              result = yield* run(["scoop", "install", `opencode@${target}`])
+              result = yield* run(["scoop", "install", `argenta-fenix@${target}`])
               break
             default:
               return yield* new UpgradeFailedError({ stderr: `Unknown method: ${m}` })
