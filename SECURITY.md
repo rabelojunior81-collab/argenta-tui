@@ -1,47 +1,56 @@
 # Security
 
-## IMPORTANT
+## Important
 
-We do not accept AI generated security reports. We receive a large number of
-these and we absolutely do not have the resources to review them all. If you
-submit one that will be an automatic ban from the project.
+Do not treat the Argenta-Tui permission UX as a hard security boundary.
 
-## Threat Model
+Argenta-Tui is a powerful local AI terminal and may execute commands, interact with files, and connect to external services depending on runtime configuration and enabled tools.
+
+## Threat model
 
 ### Overview
 
-OpenCode is an AI-powered coding assistant that runs locally on your machine. It provides an agent system with access to powerful tools including shell execution, file operations, and web access.
+Argenta-Tui is a terminal-first AI assistant that inherits part of its architectural lineage from OpenCode while operating under the Rabelus Lab ecosystem.
 
-### No Sandbox
+### No sandbox guarantee
 
-OpenCode does **not** sandbox the agent. The permission system exists as a UX feature to help users stay aware of what actions the agent is taking - it prompts for confirmation before executing commands, writing files, etc. However, it is not designed to provide security isolation.
+Argenta-Tui does **not** provide true sandbox isolation by default.
 
-If you need true isolation, run OpenCode inside a Docker container or VM.
+If your use case requires strict isolation, run it inside:
 
-### Server Mode
+- a VM
+- a container
+- an isolated workstation/profile
 
-Server mode is opt-in only. When enabled, set `OPENCODE_SERVER_PASSWORD` to require HTTP Basic Auth. Without this, the server runs unauthenticated (with a warning). It is the end user's responsibility to secure the server - any functionality it provides is not a vulnerability.
+### Server mode
 
-### Out of Scope
+If you expose headless/server functionality, securing access is your responsibility.
 
-| Category                        | Rationale                                                               |
-| ------------------------------- | ----------------------------------------------------------------------- |
-| **Server access when opted-in** | If you enable server mode, API access is expected behavior              |
-| **Sandbox escapes**             | The permission system is not a sandbox (see above)                      |
-| **LLM provider data handling**  | Data sent to your configured LLM provider is governed by their policies |
-| **MCP server behavior**         | External MCP servers you configure are outside our trust boundary       |
-| **Malicious config files**      | Users control their own config; modifying it is not an attack vector    |
+That includes:
 
----
+- authentication
+- network exposure
+- reverse proxying
+- local runtime/provider credentials
 
-# Reporting Security Issues
+### Out of scope
 
-We appreciate your efforts to responsibly disclose your findings, and will make every effort to acknowledge your contributions.
+| Category | Rationale |
+|---|---|
+| User-enabled server exposure | Expected behavior when the user explicitly exposes the server |
+| External MCP behavior | External servers/plugins are outside the core trust boundary |
+| Provider-side data handling | Remote model providers govern their own data policies |
+| Local environment compromise | The terminal is not intended to be a sandbox |
 
-To report a security issue, please use the GitHub Security Advisory ["Report a Vulnerability"](https://github.com/anomalyco/opencode/security/advisories/new) tab.
+## Reporting security issues
 
-The team will send a response indicating the next steps in handling your report. After the initial reply to your report, the security team will keep you informed of the progress towards a fix and full announcement, and may ask for additional information or guidance.
+If you identify a real security issue in the Argenta-Tui codebase, report it privately through the repository's security workflow or a private maintainer channel when available.
 
-## Escalation
+If that channel is not yet formalized, open a private coordination path before disclosing details publicly.
 
-If you do not receive an acknowledgement of your report within 6 business days, you may send an email to security@anoma.ly
+## Practical guidance
+
+- keep credentials scoped and minimal
+- prefer local-only execution where possible
+- review tool access before enabling remote integrations
+- avoid exposing local inference servers broadly on the network without explicit controls
