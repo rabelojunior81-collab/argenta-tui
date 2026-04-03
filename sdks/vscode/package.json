@@ -1,7 +1,7 @@
 {
   "name": "opencode",
   "displayName": "Argenta-Tui",
-  "description": "Argenta-Tui for VS Code",
+  "description": "Run Argenta-Tui from VS Code with local runtime integration",
   "version": "1.3.9",
   "publisher": "sst-dev",
   "repository": {
@@ -11,7 +11,7 @@
   "license": "MIT",
   "icon": "images/icon.png",
   "galleryBanner": {
-    "color": "#000000",
+    "color": "#131010",
     "theme": "dark"
   },
   "engines": {
@@ -42,7 +42,7 @@
       },
       {
         "command": "opencode.addFilepathToTerminal",
-        "title": "Add Filepath to Terminal"
+        "title": "Insert File Reference"
       }
     ],
     "menus": {
@@ -72,7 +72,7 @@
       },
       {
         "command": "opencode.addFilepathToTerminal",
-        "title": "Argenta-Tui: Insert At-Mentioned",
+        "title": "Argenta-Tui: Insert File Reference",
         "key": "cmd+alt+k",
         "mac": "cmd+alt+k",
         "win": "ctrl+alt+K",

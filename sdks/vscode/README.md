@@ -1,6 +1,6 @@
 # Argenta-Tui VS Code Extension
 
-A Visual Studio Code extension that integrates Argenta-Tui into your development workflow.
+A Visual Studio Code extension that integrates the Argenta-Tui runtime into your development workflow.
 
 ## Prerequisites
 
@@ -11,9 +11,9 @@ This extension expects the terminal runtime used by the project to be available 
 
 ## Features
 
-- **Quick Launch**: Open the terminal assistant in a split view, or focus an existing session.
-- **New Session**: Start a new terminal session even if one is already open.
-- **Context Awareness**: Automatically share your current selection or tab with the terminal assistant.
+- **Quick Launch**: Open Argenta-Tui in a split view, or focus an existing session.
+- **New Session**: Start a new Argenta-Tui terminal session even if one is already open.
+- **Context Awareness**: Automatically share your current selection or active file with the runtime.
 - **File Reference Shortcuts**: Insert file references like `@File#L37-42`.
 
 ## Support
@@ -41,3 +41,5 @@ To test your changes:
 ## Upstream note
 
 This extension remains part of a fork lineage rooted in OpenCode. Public metadata can evolve under the Argenta brand, but internal compatibility-sensitive identifiers should be changed carefully and intentionally.
+
+That is why some internal command ids and runtime invocation details still preserve `opencode` naming for compatibility during this phase.
