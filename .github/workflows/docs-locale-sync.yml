@@ -3,7 +3,7 @@ name: docs-locale-sync
 on:
   push:
     branches:
-      - dev
+      - master
     paths:
       - packages/web/src/content/docs/*.mdx
 
@@ -52,7 +52,7 @@ jobs:
         if: steps.changes.outputs.has_changes == 'true'
         run: curl -fsSL https://opencode.ai/install | bash
 
-      - name: Sync locale docs with OpenCode
+      - name: Sync locale docs for Argenta policy
         if: steps.changes.outputs.has_changes == 'true'
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
@@ -68,23 +68,32 @@ jobs:
             }
         run: |
           opencode run --agent docs --model opencode/gpt-5.3-codex <<'EOF'
-            Update localized docs to match the latest English docs changes.
+            Update localized docs to match the latest English docs changes for the Argenta-Tui fork.
 
             Changed English doc files:
             <changed_english_docs>
             ${{ steps.changes.outputs.files }}
             </changed_english_docs>
 
+            Official locale policy:
+            - pt-BR is the default product language
+            - only pt-BR and es are maintained translated locales in this sync flow
+            - do not touch any other locales
+
             Requirements:
-            1. Update all relevant locale docs under packages/web/src/content/docs/<locale>/ so they reflect these English page changes.
-            2. You MUST use the Task tool for translation work and launch subagents with subagent_type `translator` (defined in .opencode/agent/translator.md).
-            3. Do not translate directly in the primary agent. Use translator subagent output as the source for locale text updates.
-            4. Run translator subagent Task calls in parallel whenever file/locale translation work is independent.
-            5. Use only the minimum tools needed for this task (read/glob, file edits, and translator Task). Do not use shell, web, search, or GitHub tools for translation work.
-            6. Preserve frontmatter keys, internal links, code blocks, and existing locale-specific metadata unless the English change requires an update.
-            7. Keep locale docs structure aligned with their corresponding English pages.
-            8. Do not modify English source docs in packages/web/src/content/docs/*.mdx.
-            9. If no locale updates are needed, make no changes.
+            1. Update only the relevant locale docs under:
+               - packages/web/src/content/docs/pt-br/
+               - packages/web/src/content/docs/es/
+            2. Do not touch any other locales.
+            3. You MUST use the Task tool for translation work and launch subagents with subagent_type `translator` (defined in .opencode/agent/translator.md).
+            4. Do not translate directly in the primary agent. Use translator subagent output as the source for locale text updates.
+            5. Run translator subagent Task calls in parallel whenever file/locale translation work is independent.
+            6. Use only the minimum tools needed for this task (read/glob, file edits, and translator Task). Do not use shell, web, search, or GitHub tools for translation work.
+            7. Preserve frontmatter keys, internal links, code blocks, and existing locale-specific metadata unless the English change requires an update.
+            8. Preserve Argenta-specific product identity, naming, public links, and Rabelus Lab narrative. Do not overwrite Argenta-specific wording with upstream OpenCode wording.
+            9. Keep locale docs structure aligned with their corresponding English pages.
+            10. Do not modify English source docs in packages/web/src/content/docs/*.mdx.
+            11. If no locale updates are needed, make no changes.
           EOF
 
       - name: Commit and push locale docs updates
