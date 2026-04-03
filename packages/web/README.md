@@ -1,54 +1,53 @@
-# Starlight Starter Kit: Basics
+# Argenta-Tui Web Docs
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+Camada de documentação pública do `argenta-tui`, construída com Astro + Starlight.
 
-```
-npm create astro@latest -- --template starlight
-```
+## Papel desta pasta
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/starlight/tree/main/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/starlight/tree/main/examples/basics)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/withastro/starlight&create_from_path=examples/basics)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwithastro%2Fstarlight%2Ftree%2Fmain%2Fexamples%2Fbasics&project-name=my-starlight-docs&repository-name=my-starlight-docs)
+Esta pasta sustenta a documentação web e parte da superfície pública do produto. Aqui vivem:
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- docs iniciais e de onboarding
+- i18n documental prioritário
+- páginas ligadas à narrativa pública do fork
+- documentação correlata de runtime, providers e setup
 
-## 🚀 Project Structure
+## Relação com a 4.9
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+Na trilha de sanitização pública, esta pasta é tratada como superfície visível ao usuário. Portanto, starter kits, links de template e narrativa upstream genérica devem ser removidos ou substituídos por documentação coerente com a identidade Argenta.
 
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   ├── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
+## Desenvolvimento local
+
+Do root do repo:
+
+```bash
+bun run --cwd packages/web dev
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+Build local:
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+```bash
+bun run --cwd packages/web build
+```
 
-Static assets, like favicons, can be placed in the `public/` directory.
+Preview local:
 
-## 🧞 Commands
+```bash
+bun run --cwd packages/web preview
+```
 
-All commands are run from the root of the project, from a terminal:
+## Conteúdo prioritário
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+As superfícies documentais mais sensíveis desta fase ficam em:
 
-## 👀 Want to learn more?
+- `src/content/docs/`
+- `src/content/i18n/`
 
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+Idiomas mantidos prioritariamente nesta frente:
+
+- `pt-BR`
+- `en`
+- `es`
+
+## Observação de governança
+
+Sincronização com o upstream OpenCode não deve ser espelhamento cego. Alterações nesta pasta precisam respeitar a política documental do fork e preservar a narrativa pública do Rabelus Lab.

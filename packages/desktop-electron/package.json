@@ -4,10 +4,10 @@
   "version": "1.3.9",
   "type": "module",
   "license": "MIT",
-  "homepage": "https://opencode.ai",
+  "homepage": "https://rabelojunior81-collab.github.io/argenta-tui/",
   "author": {
-    "name": "OpenCode",
-    "email": "hello@opencode.ai"
+    "name": "Rabelus Lab",
+    "email": "contato@rabelus.dev"
   },
   "scripts": {
     "typecheck": "tsgo -b",

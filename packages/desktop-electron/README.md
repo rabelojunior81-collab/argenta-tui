@@ -1,32 +1,33 @@
-# OpenCode Desktop
+# Argenta Desktop Electron
 
-Native OpenCode desktop app, built with Tauri v2.
+Shell desktop baseada em Electron para experimentação/empacotamento alternativo do Argenta-Tui.
 
-## Development
+## Papel desta pasta
 
-From the repo root:
+Esta pasta não é a shell desktop principal da fase atual. O foco operacional da `4.9` e da superfície pública desktop está concentrado em `packages/desktop`.
 
-```bash
-bun install
-bun run --cwd packages/desktop tauri dev
-```
+`packages/desktop-electron` deve ser lida como trilha alternativa/legada do desktop, e por isso precisa evitar READMEs órfãos ou instruções apontando para outros pacotes como se fossem a mesma coisa.
 
-This starts the Vite dev server on http://localhost:1420 and opens the native window.
+## Desenvolvimento local
 
-If you only want the web dev server (no native shell):
+Do root do repo:
 
 ```bash
-bun run --cwd packages/desktop dev
+bun run --cwd packages/desktop-electron dev
 ```
 
 ## Build
 
-To create a production `dist/` and build the native app bundle:
-
 ```bash
-bun run --cwd packages/desktop tauri build
+bun run --cwd packages/desktop-electron build
 ```
 
-## Prerequisites
+Empacotamento:
 
-Running the desktop app requires additional Tauri dependencies (Rust toolchain, platform-specific libraries). See the [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/) for setup instructions.
+```bash
+bun run --cwd packages/desktop-electron package
+```
+
+## Observação de governança
+
+Como esta pasta ainda carrega bastante herança upstream em metadata e configuração, qualquer rebrand adicional aqui deve ser tratado com cautela e separado da shell desktop principal para não confundir a superfície pública do produto.
