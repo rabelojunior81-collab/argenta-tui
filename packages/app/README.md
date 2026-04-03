@@ -1,51 +1,55 @@
-## Usage
+# Argenta-Tui App Shell
 
-Dependencies for these templates are managed with [pnpm](https://pnpm.io) using `pnpm up -Lri`.
+Shell visual compartilhada do Argenta-Tui.
 
-This is the reason you see a `pnpm-lock.yaml`. That said, any package manager will work. This file can safely be removed once you clone a template.
+## Papel desta pasta
+
+`packages/app` concentra a WebUI que também serve de base para a experiência visual usada no desktop. Ela participa da fachada pública do produto, mas também mantém contratos internos herdados da linhagem OpenCode.
+
+Nesta pasta vivem, entre outras coisas:
+
+- layout principal da app
+- rotas e páginas da WebUI
+- onboarding e seleção de providers
+- i18n de superfície
+- integração visual com o runtime local
+
+## Regra da 4.9
+
+Aqui, o saneamento deve distinguir com cuidado:
+
+- **branding visível** — títulos, links públicos, textos, help/feedback, labels, metadados de superfície
+- **contratos herdados** — `@opencode-ai/*`, `opencode://`, `__OPENCODE__`, storage `opencode.*` e outros pontos de compatibilidade
+
+## Desenvolvimento local
+
+Backend local, a partir de `packages/opencode`:
 
 ```bash
-$ npm install # or pnpm install or yarn install
+bun run --conditions=browser ./src/index.ts serve --port 4096
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+App local, a partir de `packages/app`:
 
-## Available Scripts
+```bash
+bun dev -- --port 4444
+```
 
-In the project directory, you can run:
+Abrir:
 
-### `npm run dev` or `npm start`
+```text
+http://localhost:4444
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## E2E
 
-The page will reload if you make edits.<br>
-
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## E2E Testing
-
-Playwright starts the Vite dev server automatically via `webServer`, and UI tests need an opencode backend (defaults to `localhost:4096`).
-Use the local runner to create a temp sandbox, seed data, and run the tests.
+Os testes E2E dependem de backend local e ambiente preparado. Fluxo base:
 
 ```bash
 bunx playwright install
 bun run test:e2e:local
-bun run test:e2e:local -- --grep "settings"
 ```
 
-Environment options:
+## Observação operacional
 
-- `PLAYWRIGHT_SERVER_HOST` / `PLAYWRIGHT_SERVER_PORT` (backend address, default: `localhost:4096`)
-- `PLAYWRIGHT_PORT` (Vite dev server port, default: `3000`)
-- `PLAYWRIGHT_BASE_URL` (override base URL, default: `http://localhost:<PLAYWRIGHT_PORT>`)
-
-## Deployment
-
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+Esta pasta ainda participa da dívida de validação automatizada do projeto. A regularização completa de typecheck/build/test ficará conectada ao workflow pós-lançamento `7.7`, sem apagar as correções de rebranding visual da `4.9`.
