@@ -356,6 +356,7 @@
       <nav class="nav">
         <a href="https://github.com/rabelojunior81-collab/argenta-tui">GitHub</a>
         <a href="https://github.com/anomalyco/opencode">OpenCode</a>
+        <a href="#superficies">Superfícies</a>
         <a href="#ecossistema">Ecossistema</a>
       </nav>
     </div>
@@ -373,6 +374,9 @@
           </div>
           <p>
             Um fork do OpenCode com identidade própria, soluções proprietárias e integração direta com o núcleo operacional do ecossistema Rabelus Lab.
+          </p>
+          <p>
+            A TUI continua sendo a frente principal, mas o produto já orbita um runtime multi-cliente que também sustenta WebUI, Desktop, extensão VS Code e fluxo headless via <code>serve</code>.
           </p>
           <div class="cta">
             <a class="btn primary" href="https://github.com/rabelojunior81-collab/argenta-tui">Abrir Repositório</a>
@@ -417,9 +421,9 @@
         </article>
         <article class="card">
           <strong>Operação</strong>
-          <h2>Terminal primeiro</h2>
+          <h2>Terminal + runtime</h2>
           <p>
-            A experiência central é TUI, multi-agêntica, orientada a fluxo real de desenvolvimento, com naming, branding e caminho de distribuição sob a identidade `argenta-fenix`.
+            A experiência central continua sendo TUI, multi-agêntica e orientada a fluxo real de desenvolvimento, mas já conectada a clientes públicos adicionais e ao backbone <code>serve</code>.
           </p>
         </article>
         <article class="card">
@@ -427,6 +431,53 @@
           <h2>Comunidade upstream</h2>
           <p>
             O projeto reconhece explicitamente o OpenCode como base upstream e mantém uma postura de respeito, transparência técnica e gratidão comunitária.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="superficies">
+      <div class="shell grid">
+        <article class="card">
+          <strong>Cliente principal</strong>
+          <h2>TUI</h2>
+          <p>
+            Interface terminal soberana do produto, onde a operação multi-agêntica ganha forma direta e pragmática.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Shell compartilhada</strong>
+          <h2>WebUI</h2>
+          <p>
+            Camada visual em <code>packages/app</code>, usada como base de navegação, estado global, onboarding e sessões.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Wrapper nativo</strong>
+          <h2>Desktop</h2>
+          <p>
+            Casca Tauri que hospeda a WebUI, integra janelas nativas e sobe o sidecar local do runtime.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Integração IDE</strong>
+          <h2>VS Code</h2>
+          <p>
+            Extensão pública que conversa com a CLI local e injeta contexto no terminal a partir do fluxo de desenvolvimento.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Backbone</strong>
+          <h2>Serve</h2>
+          <p>
+            Runtime/headless que conecta clientes, sessões, eventos, tools, logs e automações externas sob a mesma espinha operacional.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Leitura do fork</strong>
+          <h2>Mais que terminal</h2>
+          <p>
+            A identidade pública do Argenta-Tui agora precisa refletir explicitamente a arquitetura de runtime + múltiplos clientes herdada e expandida do OpenCode.
           </p>
         </article>
       </div>
@@ -454,12 +505,80 @@
     <section class="section">
       <div class="shell split">
         <article class="card">
+          <strong>Framework</strong>
+          <h2>Mais que um fork isolado</h2>
+          <p>
+            O <code>argenta-tui</code> é a face operacional mais visível de um framework em evolução do Rabelus Lab. Ele conversa com kernel, gateway, infra, skills e documentação, em vez de existir como terminal solto.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Arquitetura viva</strong>
+          <h2>Camadas coordenadas</h2>
+          <p>
+            O <code>serve</code> sustenta a espinha de runtime, enquanto TUI, WebUI, Desktop e VS Code ocupam a camada de clientes públicos. Por trás disso, o framework Argenta organiza memória, providers, automação e operação local.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell grid">
+        <article class="card">
+          <strong>Núcleo</strong>
+          <h2>Argenta Kernel</h2>
+          <p>
+            Camada agentic do ecossistema: memória, eventos, contexto, heartbeat e orquestração interna.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Providers</strong>
+          <h2>Argenta Gateway</h2>
+          <p>
+            Camada de integração com providers, streaming, compatibilidades de API e fluxos de runtime externos.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Operação local</strong>
+          <h2>Argenta Infra</h2>
+          <p>
+            Bootstrap, instalação, compose, health checks e preparação do ambiente local-first.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Capacidades</strong>
+          <h2>Argenta Skills</h2>
+          <p>
+            Biblioteca viva de capacidades do framework, conectando comportamento, automação e extensão de uso.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Documentação</strong>
+          <h2>Argenta Docs</h2>
+          <p>
+            Trilha documental, metodológica e arqueológica para evolução, manutenção e governança do ecossistema.
+          </p>
+        </article>
+        <article class="card">
+          <strong>Papel do TUI</strong>
+          <h2>Fachada operacional</h2>
+          <p>
+            O Argenta-Tui permanece como interface soberana do framework, concentrando a experiência terminal enquanto expõe a topologia mais ampla do produto.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell split">
+        <article class="card">
           <strong>O que já existe</strong>
           <ul>
             <li>repositório próprio no GitHub</li>
             <li>branding Phoenix aplicado na superfície principal</li>
             <li>assets oficiais de marca e screenshot</li>
             <li>estrutura pronta para publicação via GitHub Pages</li>
+            <li>topologia pública reconhecida: TUI, WebUI, Desktop, VS Code e <code>serve</code></li>
+            <li>papel do <code>argenta-tui</code> como parte do framework Rabelus Lab explicitado</li>
           </ul>
         </article>
         <article class="card">
@@ -467,7 +586,8 @@
           <ul>
             <li>publicação da primeira release oficial</li>
             <li>refino da documentação profunda multilíngue</li>
-            <li>expansão da presença pública do ecossistema Argenta</li>
+            <li>rebrand seguro das superfícies públicas secundárias</li>
+            <li>reconciliação completa entre working tree, remoto e superfície publicada</li>
             <li>consolidação do fluxo de upgrade com identidade própria</li>
           </ul>
         </article>
