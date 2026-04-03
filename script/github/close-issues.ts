@@ -1,9 +1,9 @@
 #!/usr/bin/env bun
 
-const repo = "anomalyco/opencode"
+const repo = "rabelojunior81-collab/argenta-tui"
 const days = 60
 const msg =
-  "To stay organized issues are automatically closed after 90 days of no activity. If the issue is still relevant please open a new one."
+  "Para manter o repositório organizado, issues são fechadas automaticamente após 90 dias sem atividade. Se o problema ainda for relevante, abra uma nova issue."
 
 const token = process.env.GITHUB_TOKEN
 if (!token) {
