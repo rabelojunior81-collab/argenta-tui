@@ -1,6 +1,6 @@
-# OpenCode Desktop
+# Argenta-Tui Desktop
 
-Native OpenCode desktop app, built with Tauri v2.
+Native Argenta-Tui desktop shell, built with Tauri v2.
 
 ## Prerequisites
 
