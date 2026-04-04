@@ -25,6 +25,9 @@ jobs:
       - name: Setup Bun
         uses: ./.github/actions/setup-bun
 
+      - name: Enforce locale policy before sync
+        run: bun run locales:check
+
       - name: Setup git committer
         id: committer
         uses: ./.github/actions/setup-git-committer
@@ -99,6 +102,7 @@ jobs:
       - name: Commit and push locale docs updates
         if: steps.changes.outputs.has_changes == 'true'
         run: |
+          bun run locales:check
           if [ -z "$(git status --porcelain)" ]; then
             echo "No locale docs changes to commit"
             exit 0
